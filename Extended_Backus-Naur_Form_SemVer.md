@@ -1,66 +1,65 @@
-﻿# Backus–Naur Form Grammar for Valid SemVer Versions
+﻿# Special Semantic Version v2.1
+This is the Extended Barckus Naur Form for the Special Semantic Version v2.1.  
+It is compatible with SemVer 2.0 
 
+# EBNF - Extended Barckus–Naur Form
+This is the grammar for a valid SemVer version.
 
 ```
 <valid semver> ::= <version core>
                  | <version core> "-" <pre-release>
                  | <version core> "+" <build>
-                 | <version core> "-" <pre-release> "+" <build>
+                 | <version core> "-" <pre-release> "+" <build> ;
 
-<version core> ::= <major> "." <minor> "." <patch>
+<version core> ::= <major> "." <minor> "." <patch> ;
 
-<major> ::= <numeric identifier>
+<major> ::= <numeric identifier> ;
 
-<minor> ::= <numeric identifier>
+<minor> ::= <numeric identifier> ;
 
-<patch> ::= <numeric identifier>
+<patch> ::= <numeric identifier> ;
 
-<pre-release> ::= <dot-separated pre-release identifiers>
+<pre-release> ::= <dot-separated pre-release identifiers> ;
 
 <dot-separated pre-release identifiers> ::= <pre-release identifier>
-                                          | <pre-release identifier> "." <dot-separated pre-release identifiers>
+                                          | <pre-release identifier> "." <dot-separated pre-release identifiers> ;
 
-<build> ::= <dot-separated build identifiers>
+<build> ::= <dot-separated build identifiers> ;
 
 <dot-separated build identifiers> ::= <build identifier>
-                                    | <build identifier> "." <dot-separated build identifiers>
+                                    | <build identifier> "." <dot-separated build identifiers> ;
 
-<pre-release identifier> ::= <alphanumeric identifier>
-                           | <numeric identifier>
+<pre-release identifier> ::= <alphanumeric identifier> ;
 
-<build identifier> ::= <alphanumeric identifier>
-                     | <digits>
+<build identifier> ::= <alphanumeric identifier> ;
 
-<alphanumeric identifier> ::= <non-digit>
-                            | <non-digit> <identifier characters>
-                            | <identifier characters> <non-digit>
-                            | <identifier characters> <non-digit> <identifier characters>
+<alphanumeric identifier> ::= <string> ;
 
-<numeric identifier> ::= "0"
-                       | <positive digit>
-                       | <positive digit> <digits>
+<numeric identifier> ::= <integer> ;
 
-<identifier characters> ::= <identifier character>
-                          | <identifier character> <identifier characters>
+<string> ::= <character>+ ;
 
-<identifier character> ::= <digit>
-                         | <non-digit>
+<character> ::= <digit>
+              | <non-digit> ;
 
 <non-digit> ::= <letter>
-              | "-"
+              | <special character> ;
+			  
+<special character> ::= "-" ;
 
-<digits> ::= <digit>
-           | <digit> <digits>
+<integer> ::= <zero>
+            | <positive digit> <digit>* ;
 
-<digit> ::= "0"
-          | <positive digit>
+<digit> ::= <zero>
+          | <positive digit> ;
 
-<positive digit> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<zero> ::= "0" ;
 
-<letter> ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J"
-           | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T"
-           | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d"
-           | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n"
-           | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x"
-           | "y" | "z"
+<positive digit> ::= [1-9] ;
+
+<letter> ::= <ascii letter> ;
+
+<ascii letter> ::= [a-z] 
+                 | [A-Z] ;
+
 ```
