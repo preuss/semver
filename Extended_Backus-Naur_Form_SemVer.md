@@ -1,17 +1,19 @@
-﻿# Special Semantic Version v2.1
-This is the Extended Barckus Naur Form for the Special Semantic Version v2.1.  
-It is compatible with SemVer 2.0 
+﻿# Special Semantic Version v3.0
+This is the Extended Barckus Naur Form for the Special Semantic Version v3.0.  
 
 # EBNF - Extended Barckus–Naur Form
 This is the grammar for a valid SemVer version.
 
 ```
-<valid semver> ::= <version core>
-                 | <version core> "-" <pre-release>
-                 | <version core> "+" <build>
-                 | <version core> "-" <pre-release> "+" <build> ;
+<valid semver> ::= (<milestone prefix> <milestone> <milestone postfix)? <version core> ( <release prefix> <release> )? ( <build prefix> <build> )?
+                 | <version core>
+                 | <version core> <release prefix> <release>
+                 | <version core> <build prefix> <build>
+                 | <version core> <release prefix> <release> <build prefix> <build> ;
 
-<version core> ::= <major> "." <minor> "." <patch> ;
+<milestone> ::= integer ;
+
+<version core> ::= <major> ( <dot> <minor> ( <dot> <patch> )? )?
 
 <major> ::= <numeric identifier> ;
 
@@ -19,19 +21,23 @@ This is the grammar for a valid SemVer version.
 
 <patch> ::= <numeric identifier> ;
 
-<pre-release> ::= <dot-separated pre-release identifiers> ;
+<release> ::= <release identifier list> ;
 
-<dot-separated pre-release identifiers> ::= <pre-release identifier>
-                                          | <pre-release identifier> "." <dot-separated pre-release identifiers> ;
+<release identifier list> ::= <release identifier>
+                            | <release identifier> <separator> <release identifier list> ;
 
-<build> ::= <dot-separated build identifiers> ;
+<build> ::= <build identifier list> ;
 
-<dot-separated build identifiers> ::= <build identifier>
-                                    | <build identifier> "." <dot-separated build identifiers> ;
+<build identifier list> ::= <build identifier>
+                          | <build identifier> <separator> <build identifier list>
+						  ;
 
-<pre-release identifier> ::= <alphanumeric identifier> ;
+<separator> ::= <string> ;
 
-<build identifier> ::= <alphanumeric identifier> ;
+<release identifier> ::= <alphanumeric identifier> ;
+
+<build identifier> ::= "+"+ 
+                     | <alphanumeric identifier> ;
 
 <alphanumeric identifier> ::= <string> ;
 
@@ -40,18 +46,37 @@ This is the grammar for a valid SemVer version.
 <string> ::= <character>+ ;
 
 <character> ::= <digit>
-              | <non-digit> ;
+              | <letter>
+              | <special character> 
+			  ;
 
-<non-digit> ::= <letter>
-              | <special character> ;
-			  
-<special character> ::= "-" ;
+<special character> ::= "-" 
+                      | "_" | "," | "`" | "´" | <dot>
+                      | "$" | "£" | "€" | "¤" | "#" | "@" 
+                      | "'" | "!" | "^" | "~" | "|" | ";"
+                      | "{" | "}" | "[" | "]" | "(" | ")" 
+                      ;
 
+<milestone prefix> ::= "v" 
+                     | "V" 
+					 ;
+
+<milestone postfix> ::= "," ;
+
+<release prefix> ::= "-" ;
+
+<build prefix> ::= "+" ;
+
+<dot> ::= "." ;
+
+# Describes that an integer is not prefixed with "0"
 <integer> ::= <zero>
-            | <positive digit> <digit>* ;
+            | <positive digit> <digit>* 
+			;
 
 <digit> ::= <zero>
-          | <positive digit> ;
+          | <positive digit> 
+		  ;
 
 <zero> ::= "0" ;
 
@@ -60,6 +85,133 @@ This is the grammar for a valid SemVer version.
 <letter> ::= <ascii letter> ;
 
 <ascii letter> ::= [a-z] 
-                 | [A-Z] ;
+                 | [A-Z] 
+				 ;
 
+```
+
+## Example of legal version
+
+- v3,1.22.55-SomeRelease.333432(example)+BuildInfo(2020-04-05)clock_1244
+- 1.22.55-SomeRelease.333432(example)+BuildInfo(2020-04-05)clock_1244
+- 1.22.55-SomeRelease.333432(example)
+- 1.22.55+BuildInfo(2020-04-05)clock_1244
+- 1.22.0+BuildInfo(2020-04-05)clock_1244
+- 1.22+BuildInfo(2020-04-05)clock_1244
+- 1.0+BuildInfo(2020-04-05)clock_1244
+- 1+BuildInfo(2020-04-05)clock_1244
+
+# Regular expression for SemVer
+
+We are using https://regex101.com to test regex.
+
+There are two. One with named groups for those systems that support them 
+
+## PCRE (PHP)
+This is the (PCRE [Perl Compatible Regular Expressions, i.e. Perl, PHP and R], Python and Go).
+
+See: <https://regex101.com/r/VT89qd/1>
+
+```
+^(?:[vV](?P<milestone>0|[1-9]\d*)(?:,))?(?P<major>0|[1-9]\d*)(?:\.(?P<minor>(?:0|[1-9]\d*))(?:\.(?P<patch>0|[1-9]\d*))?)?(?:-(?P<release>(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+))*))?(?:\+(?P<build>[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+(?:[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)*))?$
+```
+
+## ECMAScript (JavaScript)
+And this one with numbered capture groups instead (so cg1 = milestone, cg2 = major, cg3 = minor, cg4 = patch, cg5 = release and cg6 = build) that is compatible with ECMA Script (JavaScript), PCRE (Perl Compatible Regular Expressions, i.e. Perl, PHP and R), Python and Go.
+
+See: <https://regex101.com/r/rmSh6Y/1>
+
+```
+^(?:[vV]((?:0|[1-9]\d*))(?:,))?(0|[1-9]\d*)(?:.(0|[1-9]\d*)(?:.(0|[1-9]\d*))?)?(?:-((?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)(?:\.(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]*))*))?(?:\+([+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)*))?$
+```
+
+### Expanded Regex for PCRE (PHP)
+
+```
+^
+	(?:
+		[vV]
+		(?P<milestone>
+			0|[1-9]\d*
+		)
+		(?:,)
+	)?
+	(?P<major>
+		0|[1-9]\d*
+	)
+	(?:\.
+		(?P<minor>
+			(?:0|[1-9]\d*)
+		)
+		(?:\.
+			(?P<patch>
+				0|[1-9]\d*
+			)
+		)?
+	)?
+	(?:-
+		(?P<release>
+			(?:
+				[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+
+			)
+			(?:
+				[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+
+				(?:
+					[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+
+				)
+			)*
+		)
+	)?
+	(?:\+
+			(?P<build>
+				[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+
+				(?:
+					[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+
+					[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+
+				)*
+			)
+	)?
+$
+```
+
+
+### Expanded Regex for ECMA Script (JavaScript)
+
+```
+^
+	(?:
+		[vV]
+		(
+			(?:0|[1-9]\d*)
+			
+		)
+		(?:,)
+	)?
+	(0|[1-9]\d*)
+	(?:.
+		(0|[1-9]\d*)
+		(?:.
+			(0|[1-9]\d*)
+		)?
+	)?
+	(?:
+		-
+		(
+			(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)
+			(?:\.
+				(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]*)
+			)*
+		)
+	)?
+	(?:
+		\+
+		(
+			[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+
+			(?:
+				[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+
+				[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+
+			)*
+		)
+	)?
+$
 ```
