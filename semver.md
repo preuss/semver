@@ -135,18 +135,18 @@ No, "v1.2.3" is not a semantic version. However, prefixing a semantic version wi
 
 There are two. One with named groups for those systems that support them (PCRE [Perl Compatible Regular Expressions, i.e. Perl, PHP and R], Python and Go).
 
-See: <https://regex101.com/r/Ly7O1x/3/>
+See: <https://regex101.com/r/VT89qd/1>
 
 ```
-^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+^(?:[vV](?P<milestone>0|[1-9]\d*)(?:,))?(?P<major>0|[1-9]\d*)(?:\.(?P<minor>(?:0|[1-9]\d*))(?:\.(?P<patch>0|[1-9]\d*))?)?(?:-(?P<release>(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+))*))?(?:\+(?P<build>[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+(?:[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)*))?$
 ```
 
 And one with numbered capture groups instead (so cg1 = major, cg2 = minor, cg3 = patch, cg4 = prerelease and cg5 = buildmetadata) that is compatible with ECMA Script (JavaScript), PCRE (Perl Compatible Regular Expressions, i.e. Perl, PHP and R), Python and Go.
 
-See: <https://regex101.com/r/vkijKf/1/>
+See: <https://regex101.com/r/rmSh6Y/1>
 
 ```
-^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+^(?:[vV]((?:0|[1-9]\d*))(?:,))?(0|[1-9]\d*)(?:.(0|[1-9]\d*)(?:.(0|[1-9]\d*))?)?(?:-((?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)(?:\.(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]*))*))?(?:\+([+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)*))?$
 ```
 
 ## About
