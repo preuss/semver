@@ -1,4 +1,4 @@
-﻿# Special Semantic Version v3.0
+# Special Semantic Version v3.0
 This is the Extended Barckus Naur Form for the Special Semantic Version v3.0.  
 
 # EBNF - Extended Barckus–Naur Form
@@ -215,3 +215,10 @@ $
 	)?
 $
 ```
+
+#### RegEx as SVG picture
+
+Link: [www.regexplained.co.uk TinyUrl with JavaScript RegEx](https://tinyurl.com/y46v3rho)  
+Link: [RegExper.com with JavaScript RegEx](https://regexper.com/#%5E%28%3F%3A%5BvV%5D%28%28%3F%3A0%7C%5B1-9%5D%5Cd*%29%29%28%3F%3A%2C%29%29%3F%280%7C%5B1-9%5D%5Cd*%29%28%3F%3A.%280%7C%5B1-9%5D%5Cd*%29%28%3F%3A.%280%7C%5B1-9%5D%5Cd*%29%29%3F%29%3F%28%3F%3A-%28%28%3F%3A%5B_%2C%60%C2%B4.%24%C2%A3%E2%82%AC%C2%A4%23%40'!%5E~%3B%22%7B%7D%5B%5C%5D%28%290-9a-zA-Z-%5D%2B%29%28%3F%3A%5C.%28%3F%3A%5B_%2C%60%C2%B4.%24%C2%A3%E2%82%AC%C2%A4%23%40'!%5E~%3B%22%7B%7D%5B%5C%5D%28%290-9a-zA-Z-%5D*%29%29*%29%29%3F%28%3F%3A%5C%2B%28%5B%2B_%2C%60%C2%B4.%24%C2%A3%E2%82%AC%C2%A4%23%40'!%5E~%3B%22%7B%7D%5B%5C%5D%28%290-9a-zA-Z-%5D%2B%28%3F%3A%5B_%2C%60%C2%B4.%24%C2%A3%E2%82%AC%C2%A4%23%40'!%5E~%3B%22%7B%7D%5B%5C%5D%28%290-9a-zA-Z-%5D%2B%5B%2B_%2C%60%C2%B4.%24%C2%A3%E2%82%AC%C2%A4%23%40'!%5E~%3B%22%7B%7D%5B%5C%5D%28%290-9a-zA-Z-%5D%2B%29*%29%29%3F%24)  
+
+
