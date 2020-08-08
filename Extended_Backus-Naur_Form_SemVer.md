@@ -1,10 +1,12 @@
 # Special Semantic Version v3.0
+
 This is the Extended Barckus Naur Form for the Special Semantic Version v3.0.  
 
 # EBNF - Extended Barckus–Naur Form
+
 This is the grammar for a valid SemVer version.
 
-```
+```EBNF
 <valid semver> ::= (<milestone prefix> <milestone> <milestone postfix)? <version core> ( <release prefix> <release> )? ( <build prefix> <build> )?
                  | <version core>
                  | <version core> <release prefix> <release>
@@ -30,13 +32,13 @@ This is the grammar for a valid SemVer version.
 
 <build identifier list> ::= <build identifier>
                           | <build identifier> <separator> <build identifier list>
-						  ;
+                          ;
 
 <separator> ::= <string> ;
 
 <release identifier> ::= <alphanumeric identifier> ;
 
-<build identifier> ::= "+"+ 
+<build identifier> ::= "+"+
                      | <alphanumeric identifier> ;
 
 <alphanumeric identifier> ::= <string> ;
@@ -47,19 +49,19 @@ This is the grammar for a valid SemVer version.
 
 <character> ::= <digit>
               | <letter>
-              | <special character> 
-			  ;
+              | <special character>
+              ;
 
-<special character> ::= "-" 
+<special character> ::= "-"
                       | "_" | "," | "`" | "´" | <dot>
-                      | "$" | "£" | "€" | "¤" | "#" | "@" 
+                      | "$" | "£" | "€" | "¤" | "#" | "@"
                       | "'" | "!" | "^" | "~" | "|" | ";"
-                      | "{" | "}" | "[" | "]" | "(" | ")" 
+                      | "{" | "}" | "[" | "]" | "(" | ")"
                       ;
 
-<milestone prefix> ::= "v" 
-                     | "V" 
-					 ;
+<milestone prefix> ::= "v"
+                     | "V"
+                     ;
 
 <milestone postfix> ::= "," ;
 
@@ -71,12 +73,12 @@ This is the grammar for a valid SemVer version.
 
 # Describes that an integer is not prefixed with "0"
 <integer> ::= <zero>
-            | <positive digit> <digit>* 
-			;
+            | <positive digit> <digit>*
+            ;
 
 <digit> ::= <zero>
-          | <positive digit> 
-		  ;
+          | <positive digit>
+          ;
 
 <zero> ::= "0" ;
 
@@ -84,9 +86,9 @@ This is the grammar for a valid SemVer version.
 
 <letter> ::= <ascii letter> ;
 
-<ascii letter> ::= [a-z] 
-                 | [A-Z] 
-				 ;
+<ascii letter> ::= [a-z]
+                 | [A-Z]
+                 ;
 
 ```
 
@@ -108,26 +110,28 @@ We are using https://regex101.com to test regex.
 There are two. One with named groups for those systems that support them 
 
 ## PCRE (PHP)
+
 This is the (PCRE [Perl Compatible Regular Expressions, i.e. Perl, PHP and R], Python and Go).
 
 See: <https://regex101.com/r/VT89qd/1>
 
-```
+```RegEx
 ^(?:[vV](?P<milestone>0|[1-9]\d*)(?:,))?(?P<major>0|[1-9]\d*)(?:\.(?P<minor>(?:0|[1-9]\d*))(?:\.(?P<patch>0|[1-9]\d*))?)?(?:-(?P<release>(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+))*))?(?:\+(?P<build>[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+(?:[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)*))?$
 ```
 
 ## ECMAScript (JavaScript)
+
 And this one with numbered capture groups instead (so cg1 = milestone, cg2 = major, cg3 = minor, cg4 = patch, cg5 = release and cg6 = build) that is compatible with ECMA Script (JavaScript), PCRE (Perl Compatible Regular Expressions, i.e. Perl, PHP and R), Python and Go.
 
 See: <https://regex101.com/r/rmSh6Y/1>
 
-```
+```RegEx
 ^(?:[vV]((?:0|[1-9]\d*))(?:,))?(0|[1-9]\d*)(?:.(0|[1-9]\d*)(?:.(0|[1-9]\d*))?)?(?:-((?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)(?:\.(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]*))*))?(?:\+([+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+(?:[_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+[+_,`´.$£€¤#@'!^~;"{}[\]()0-9a-zA-Z-]+)*))?$
 ```
 
 ### Expanded Regex for PCRE (PHP)
 
-```
+```RegEx
 ^
 	(?:
 		[vV]
@@ -174,10 +178,9 @@ See: <https://regex101.com/r/rmSh6Y/1>
 $
 ```
 
-
 ### Expanded Regex for ECMA Script (JavaScript)
 
-```
+```RegEx
 ^
 	(?:
 		[vV]
@@ -220,5 +223,3 @@ $
 
 Link: [www.regexplained.co.uk TinyUrl with JavaScript RegEx](https://tinyurl.com/y46v3rho)  
 Link: [RegExper.com with JavaScript RegEx](https://regexper.com/#%5E%28%3F%3A%5BvV%5D%28%28%3F%3A0%7C%5B1-9%5D%5Cd*%29%29%28%3F%3A%2C%29%29%3F%280%7C%5B1-9%5D%5Cd*%29%28%3F%3A.%280%7C%5B1-9%5D%5Cd*%29%28%3F%3A.%280%7C%5B1-9%5D%5Cd*%29%29%3F%29%3F%28%3F%3A-%28%28%3F%3A%5B_%2C%60%C2%B4.%24%C2%A3%E2%82%AC%C2%A4%23%40'!%5E~%3B%22%7B%7D%5B%5C%5D%28%290-9a-zA-Z-%5D%2B%29%28%3F%3A%5C.%28%3F%3A%5B_%2C%60%C2%B4.%24%C2%A3%E2%82%AC%C2%A4%23%40'!%5E~%3B%22%7B%7D%5B%5C%5D%28%290-9a-zA-Z-%5D*%29%29*%29%29%3F%28%3F%3A%5C%2B%28%5B%2B_%2C%60%C2%B4.%24%C2%A3%E2%82%AC%C2%A4%23%40'!%5E~%3B%22%7B%7D%5B%5C%5D%28%290-9a-zA-Z-%5D%2B%28%3F%3A%5B_%2C%60%C2%B4.%24%C2%A3%E2%82%AC%C2%A4%23%40'!%5E~%3B%22%7B%7D%5B%5C%5D%28%290-9a-zA-Z-%5D%2B%5B%2B_%2C%60%C2%B4.%24%C2%A3%E2%82%AC%C2%A4%23%40'!%5E~%3B%22%7B%7D%5B%5C%5D%28%290-9a-zA-Z-%5D%2B%29*%29%29%3F%24)  
-
-
